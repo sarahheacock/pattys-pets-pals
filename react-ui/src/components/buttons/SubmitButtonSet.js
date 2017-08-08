@@ -50,7 +50,7 @@ class SubmitButtonSet extends React.Component {
     const edit = this.props.edit;
     const style = (edit.modalTitle.includes("Edit")) ?
       "button orangeButton":
-      ((edit.modalTitle.includes("Add") || edit.modalTitle.includes("Login")) ?
+      ((edit.modalTitle.includes("Add") || edit.modalTitle.includes("Login") || edit.modalTitle.includes("Send")) ?
         "button blueButton":
         ((edit.modalTitle.includes("Delete")) ?
           "button redButton":
@@ -65,7 +65,11 @@ class SubmitButtonSet extends React.Component {
           (this.props.message !== messages.expError) ?
             <div>
               <button className={style} onClick={this.submit}>
-                {edit.modalTitle.replace(' Service', '')}
+                {edit.modalTitle.replace(' Service', '').replace('Message', '')}
+                {(edit.modalTitle).includes('Send') ?
+                  <i className="fa fa-paper-plane" aria-hidden="true"></i>:
+                  <span></span>
+                }
               </button>
               <button className="button" onClick={this.pop}>
                 Cancel
