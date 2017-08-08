@@ -1,7 +1,7 @@
 
-const blogID = '5989df866b0371404aa56ba6';
+var blogID = '5989df866b0371404aa56ba6';
 
-const data = {
+var data = {
   home: {
     "Hello my name is Patty...": {
       image: "Pat_ltplrl.png",
@@ -74,7 +74,7 @@ const data = {
   }
 };
 
-const footer = {
+var footer = {
   rowTwo: [
     "Member of National Association of Professional Pet Sitters.",
     "Reference letters available per request.",
@@ -84,7 +84,7 @@ const footer = {
   rowOne: ["614-625-7651", "614-754-8654"]
 };
 
-const loginData = {
+var loginData = {
   username: {
     type: 'text',
     placeholder: 'Admin Username',
@@ -98,7 +98,7 @@ const loginData = {
 };
 
 
-const messageData = {
+var messageData = {
   name: {
     type: 'text',
     placeholder: 'Your Name',
@@ -121,21 +121,21 @@ const messageData = {
   }
 };
 
-const notRequired = [];
+var notRequired = [];
 
-const initialUser = {
+var initialUser = {
   token: ''
 };
 
-const initialEdit = {
+var initialEdit = {
   url: '',
   modalTitle: '',
   dataObj: ''
 };
 
-const initialMessage = '';
+var initialMessage = '';
 
-const editData = {
+var editData = {
   title: {
     type: 'text',
     placeholder: 'Type of Service',
@@ -163,10 +163,10 @@ const editData = {
   }
 }
 
-const initialRate = data.rates.rate;
-const cloudName = "dhd1eov8v";
+var initialRate = data.rates.rate;
+var cloudName = "dhd1eov8v";
 
-const messages = {
+var messages = {
   inputError: "*Fill out required fields.",
   tokenError: 'You are unauthorized. Sign in to continue.',
   expError: 'Session expired. Log back in to continue.',
@@ -176,20 +176,20 @@ const messages = {
   usernameError: 'Username not found.',
   passError: 'Incorrect password for given username.',
   messageSent: "Message sent! I will get back to you within 24 business hours. Thank you!"
-}
+};
 
 module.exports = {
-  data,
-  footer,
-  initialUser,
-  initialEdit,
-  initialMessage,
-  initialRate,
-  messageData,
-  loginData,
-  blogID,
-  editData,
-  cloudName,
-  notRequired,
-  messages
+  data: data,
+  footer: footer,
+  initialUser: initialUser,
+  initialEdit: initialEdit,
+  initialMessage: initialMessage,
+  initialRate: initialRate,
+  messageData: messageData,
+  loginData: loginData,
+  blogID: blogID,
+  editData: editData,
+  cloudName: cloudName,
+  notRequired: notRequired,
+  messages: messages
 }
