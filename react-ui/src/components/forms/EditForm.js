@@ -5,12 +5,14 @@ import { Form, ControlLabel, FormGroup, FormControl } from 'react-bootstrap';
 
 import SubmitButtonSet from '../buttons/SubmitButtonSet';
 import FormList from './FormList';
-import { messageData, loginData, editData } from '../../../../data/data';
+import { messageData, loginData, editData, notRequired } from '../../../../data/data';
 
 
 
 const upper = (label) => {
-  return `${label.charAt(0).toUpperCase()}${label.slice(1)}*`;
+  const required = notRequired.reduce((c, d) => { return c || label === d }, false);
+  if(!required) return `${label.charAt(0).toUpperCase()}${label.slice(1)}*`;
+  else return `${label.charAt(0).toUpperCase()}${label.slice(1)}`;
 };
 
 const EditForm = (props) => {

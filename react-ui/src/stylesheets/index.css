@@ -28,6 +28,12 @@ body {
   padding: 0;
 }
 
+.smallbrand{
+  font-size: 80%;
+  font-family: 'Raleway', sans-serif;
+  /*font-style: oblique;*/
+}
+
 .pretty {
   font-family: 'Pacifico';
   padding: 1%;

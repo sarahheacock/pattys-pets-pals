@@ -67,7 +67,7 @@ var data = {
   },
   rates: {
     rate: [],
-    paragraph: ["Initial visit is information gathering and at no cost to you."]
+    paragraph: ["Initial visit will be a 20-30 minute consultation.", "During which time, I will get to know you and your pet, and determine services required.", "Forms will be filled out "]
   },
   contact: {
     paragraph: ["Want to get in contact with me?", "Whether you have further questions about my services, would like to request proof of certification, or would like to see my resume, I would be happy to hear from you!", "Call me with the provided phone numbers or click on a", "fa fa-envelope", "icon to leave a message and I will get back to you as soon as possible.", "Note: No spam or soliciting, please  :-)"]
@@ -121,7 +121,7 @@ var messageData = {
   }
 };
 
-var notRequired = [];
+var notRequired = ['description'];
 
 var initialUser = {
   token: ''

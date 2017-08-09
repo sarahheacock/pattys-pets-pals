@@ -17,6 +17,8 @@ const Rates = (props) => {
 
   return (
     <div>
+      <div className="text-center">{paragraphs}</div>
+      <br />
       <div className="flex-container">
         {props.data.rate.map((r) =>
           <div className="content rate" key={r.title}>
@@ -26,12 +28,6 @@ const Rates = (props) => {
               <hr />
               <h4>{`$${r.cost}`}</h4>
               <p>{r.description}</p>
-              <br />
-              <div>{(arr).map((s, i) => {
-                return (r.services[s.service]) ?
-                  <p className="yes" key={s.service}><i className="fa fa-check" aria-hidden="true"></i>{` ${s.service}`}</p> :
-                  <p className="no" key={s.service}><i className="fa fa-times" aria-hidden="true"></i>{` ${s.service}`}</p>
-              })}</div>
 
               <EditButton
                 user={props.user}
@@ -50,7 +46,7 @@ const Rates = (props) => {
           </div>
         )}
       </div>
-      <div className="text-center">{paragraphs}</div>
+
     </div>
   );
 }
@@ -60,3 +56,12 @@ export default Rates;
 Rates.propTypes = {
   data: PropTypes.object.isRequired
 }
+
+
+
+// <br />
+// <div>{(arr).map((s, i) => {
+//   return (r.services[s.service]) ?
+//     <p className="yes" key={s.service}><i className="fa fa-check" aria-hidden="true"></i>{` ${s.service}`}</p> :
+//     <p className="no" key={s.service}><i className="fa fa-times" aria-hidden="true"></i>{` ${s.service}`}</p>
+// })}</div>
