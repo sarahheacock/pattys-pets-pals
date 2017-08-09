@@ -12,7 +12,7 @@ const slack = new Slack(configure.url);
 messageRoutes.post("/", mid.checkMessageInput, (req, res) => {
   slack.send({
     text: req.body.message,
-    channel: '#portfolio',
+    channel: '#general',
     username: req.body.name,
     attachments: [
       {
