@@ -112,8 +112,8 @@ const EditButton = (props) => {
           if(e) e.preventDefault();
           props.updateState(content);
         }} >
-          <span className="brand"><i className="fa fa-paw" aria-hidden="true"></i>
-            {"  Patty's Pet Pals  "}<span className="smallbrand">{"LLC "}</span>
+          <span className="brand"><i className="fa fa-paw large-icon" aria-hidden="true"></i>
+            {"Patty's Pet Pals  "}<span className="smallbrand">{"LLC"}</span>
           </span>
         </a> :
         <button className={style} onClick={(e) => { if(e) e.preventDefault(); props.updateState(content); }}>

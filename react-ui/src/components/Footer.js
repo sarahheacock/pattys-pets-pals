@@ -49,7 +49,7 @@ const Footer = (props) => {
       </Row>
 
       <br />
-      <div>{props.data.rowTwo.map((d, i) => <p key={`${i}rowTwo`}><b>{d}</b></p>)}</div>
+      <div>{props.data.rowTwo.map((d, i) => <h4 key={`${i}rowTwo`}><i>{d}</i></h4>)}</div>
       <h3 className='text-center'><i className="fa fa-paw footer-icon" aria-hidden="true"></i></h3>
 
     </footer>

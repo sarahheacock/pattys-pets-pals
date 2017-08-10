@@ -21,6 +21,10 @@ body {
   padding: 0px;
 }
 
+.large-icon{
+  font-size: 150%;
+  margin-right: 10px;
+}
 
 .brand {
   color: WhiteSmoke;
@@ -72,11 +76,11 @@ a:hover{
 
 
 h4 {
-  line-height: 150%;
+  line-height: 170%;
 }
 
 .service{
-  height: 100px;
+  height: 150px;
   width: 170px;
   margin-bottom: 5%;
   margin-left: 2%;
@@ -88,8 +92,7 @@ h4 {
 
 .rate{
   width: 250px;
-  margin: 1%;
-  margin-bottom: 5%;
+  margin: 10px 7px 20px 7px;
 }
 
 .yes{

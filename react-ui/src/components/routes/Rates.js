@@ -10,10 +10,11 @@ const Rates = (props) => {
   const arr = services[keys[0]].concat(services[keys[1]]);
 
   const paragraphs = props.data.paragraph.map((p, i) =>
-    <p key={`p${i}`}>
-      <b>{p}</b>
-    </p>
+    <h4 key={`p${i}`}>
+      <i>{p}</i>
+    </h4>
   );
+
 
   return (
     <div>

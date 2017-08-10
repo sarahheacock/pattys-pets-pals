@@ -22,22 +22,22 @@ var data = {
       },
       {
         service: "Dog Walking",
-        icon: "fa fa-road"
+        icon: "fi-guide-dog large-icon"
       },
       {
-        service: "Care and feeding",
+        service: "Care & feeding",
         icon: "fa fa-heart"
       },
       {
-        service: "Waste pick up and disposal",
-        icon: "fa fa-check"
+        service: "Waste pick up & disposal",
+        icon: "fi-trash"
       },
       {
         service: "Medication administration",
         icon: "fa fa-medkit"
       },
       {
-        service: "Brushing/Combing",
+        service: "Brushing & Bathing",
         icon: "fa fa-bath"
       },
       {
@@ -59,7 +59,7 @@ var data = {
         icon: "fa fa-leaf"
       },
       {
-        service: "Alter lights and shades",
+        service: "Alter lights & shades",
         icon: "fa fa-lightbulb-o"
       }
     ],
