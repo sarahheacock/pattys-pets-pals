@@ -57,7 +57,7 @@ const Footer = (props) => {
         title="Edit"
         route="footer"
       />
-      <h4><i>{props.data.p1}</i></h4>
+      {props.data.p1.split('\n').map((p, i) => <h4 key={`${i}footer`}><i>{p}</i></h4>)}
       <h3 className='text-center'><i className="fa fa-paw footer-icon" aria-hidden="true"></i></h3>
 
     </footer>

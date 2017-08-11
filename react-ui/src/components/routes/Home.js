@@ -26,7 +26,7 @@ const Home = (props) => {
                 crop="scale"/>
             </Col>
             <Col sm={8}>
-              <h4 className="text-center">{props.data.p1}</h4>
+              {props.data.p1.split('\n').map((p, i) => <h4 key={`${i}home`} className="text-center">{p}</h4>)}
               <div className="text-center">
               <EditButton
                 user={props.user}

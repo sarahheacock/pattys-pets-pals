@@ -7,7 +7,7 @@ import EditButton from '../buttons/EditButton';
 const Contact = (props) => {
   const content = (arr) => {
     return arr.map((p, i) => {
-      return <div key={`${i}contact`}>{
+      return <div key={`${i}${p.charAt(0)}contact`}>{
         (p.includes("fa")) ?
           <h3><EditButton
             user={{}}
@@ -30,7 +30,7 @@ const Contact = (props) => {
         title="Edit"
         route="contact"
       />
-      {content([props.data.p1])}
+      {content(props.data.p1.split('\n'))}
       {content(props.data.p2)}
     </div>
   );

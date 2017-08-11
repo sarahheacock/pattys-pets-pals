@@ -5,7 +5,7 @@ import EditButton from '../buttons/EditButton';
 
 const Rates = (props) => {
 
-  const paragraphs = <h4><i>{props.data.p1}</i></h4>;
+  const paragraphs = props.data.p1.split('\n').map((p, i) => <h4 key={`${i}rates`}><i>{p}</i></h4>);
 
   return (
     <div>
