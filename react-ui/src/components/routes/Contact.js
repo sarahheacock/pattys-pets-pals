@@ -16,10 +16,7 @@ const Contact = (props) => {
             title="Send Message"
             route="contact"
           /></h3> :
-          <h4>{
-            (p.charAt(p.length - 1) !== '.' && p.charAt(p.length - 1) !== '!' && p.charAt(p.length - 1) !== '?') ?
-              `${p}.` : p
-            }</h4>}</div>
+          <h4>{p}</h4>}</div>
     });
   }
 
@@ -33,7 +30,7 @@ const Contact = (props) => {
         title="Edit"
         route="contact"
       />
-      {content(props.data.p1.split('. '))}
+      {content([props.data.p1])}
       {content(props.data.p2)}
     </div>
   );

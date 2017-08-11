@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Form, ControlLabel, FormGroup, FormControl } from 'react-bootstrap';
 
 import SubmitButtonSet from '../buttons/SubmitButtonSet';
-import { messageData, loginData, editData, notRequired, rateData } from '../../../../data/data';
+import { messageData, loginData, editData, notRequired, rateData, messages } from '../../../../data/data';
 
 
 
@@ -16,16 +16,29 @@ const upper = (label) => {
 
 const EditForm = (props) => {
 
+  const check = (k) => {
+    if(props.message === messages.inputError && !props.edit.dataObj[k]){
+      return 'warning';
+    }
+    if(props.message === messages.emailError && k === "email"){
+      return 'warning';
+    }
+    if(props.message === messages.phoneError && k === "phone"){
+      return 'warning';
+    }
+    return null;
+  }
+
   //======ALL OF THE FORM GROUPS===================================
   const formObj = {...messageData, ...loginData, ...editData, ...rateData};
 
   // console.log(Object.keys(props.edit.dataObj));
   const formGroups = (props.edit.modalTitle.includes("Delete")) ?
     <div className="text-center">Are you sure you want to delete this service?</div>:
-    Object.keys(props.edit.dataObj).map(k => 
+    Object.keys(props.edit.dataObj).map(k =>
       (!formObj[k]) ?
         <div></div>:
-        <FormGroup key={k} validationState={null}>
+        <FormGroup key={k} validationState={check(k)}>
           <ControlLabel>{upper(k)}</ControlLabel>
           <FormControl
              name={k}
