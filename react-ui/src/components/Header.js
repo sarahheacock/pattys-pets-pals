@@ -61,6 +61,7 @@ class Header extends React.Component {
                       updateState={this.props.updateState}
                       dataObj={{}}
                       title="Login"
+                      route="header"
                     />}</div>
             </Navbar.Brand>
             <Navbar.Toggle />

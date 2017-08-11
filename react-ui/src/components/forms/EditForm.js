@@ -4,8 +4,7 @@ import PropTypes from 'prop-types';
 import { Form, ControlLabel, FormGroup, FormControl } from 'react-bootstrap';
 
 import SubmitButtonSet from '../buttons/SubmitButtonSet';
-import FormList from './FormList';
-import { messageData, loginData, editData, notRequired } from '../../../../data/data';
+import { messageData, loginData, editData, notRequired, rateData } from '../../../../data/data';
 
 
 
@@ -18,18 +17,16 @@ const upper = (label) => {
 const EditForm = (props) => {
 
   //======ALL OF THE FORM GROUPS===================================
-  const formObj = {...messageData, ...loginData, ...editData};
+  const formObj = {...messageData, ...loginData, ...editData, ...rateData};
 
+  // console.log(Object.keys(props.edit.dataObj));
   const formGroups = (props.edit.modalTitle.includes("Delete")) ?
     <div className="text-center">Are you sure you want to delete this service?</div>:
-    Object.keys(props.edit.dataObj).map(k =>
-      <FormGroup key={k} validationState={null}>
-        <ControlLabel>{upper(k)}</ControlLabel>
-        {(formObj[k]["type"] === 'other') ?
-          <FormList
-            value={props.edit.dataObj[k]}
-            formChange={props.formChange}
-          /> :
+    Object.keys(props.edit.dataObj).map(k => 
+      (!formObj[k]) ?
+        <div></div>:
+        <FormGroup key={k} validationState={null}>
+          <ControlLabel>{upper(k)}</ControlLabel>
           <FormControl
              name={k}
              type={formObj[k]["type"]}
@@ -37,8 +34,8 @@ const EditForm = (props) => {
              componentClass={formObj[k]["componentClass"]}
              value={props.edit.dataObj[k]}
              onChange={props.formChange}
-           />}
-      </FormGroup>
+           />
+        </FormGroup>
     );
 
 

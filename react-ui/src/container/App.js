@@ -13,13 +13,13 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 //data
-import { data, footer } from '../../../data/data';
+import { links } from '../../../data/data';
 
 
 class App extends Component {
   static propTypes = {
     user: PropTypes.object.isRequired,
-    rate: PropTypes.array.isRequired,
+    rate: PropTypes.object.isRequired,
     message: PropTypes.string.isRequired,
     edit: PropTypes.object.isRequired
   }
@@ -39,7 +39,6 @@ class App extends Component {
 
     console.log("");
     console.log("user", user);
-    console.log("dataContent", data);
     console.log("rate", rate);
     console.log("message", message);
     console.log("edit", edit);
@@ -51,37 +50,35 @@ class App extends Component {
 
           <Header
             user={user}
-            links={[...Object.keys(data)]}
+            links={links}
 
             getData={getData}
             updateState={updateState}
           />
 
           <Routes
-            data={{
-              ...data,
-              rates: {
-                ...data.rates,
-                rate: [...rate]
-              }
-            }}
+            data={rate}
+            links={links}
             user={user}
             message={message}
 
             updateState={updateState}
           />
 
-          <Footer
-            edit={edit}
-            user={user}
-            message={message}
-            data={footer}
+          {(Object.keys(rate.footer).length < 1) ?
+            <div></div>:
+            <Footer
+              edit={edit}
+              user={user}
+              message={message}
+              data={rate.footer}
 
-            putData={putData}
-            postData={postData}
-            deleteData={deleteData}
-            updateState={updateState}
-          />
+              putData={putData}
+              postData={postData}
+              deleteData={deleteData}
+              updateState={updateState}
+            />
+          }
         </div>
 
       </BrowserRouter>

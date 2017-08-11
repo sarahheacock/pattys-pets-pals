@@ -41,15 +41,26 @@ const Footer = (props) => {
               updateState={props.updateState}
               dataObj={{}}
               title="Send Message"
+              route="footer"
             />
           </h3>
-          <h4>{props.data.rowOne[0]} <br /> {props.data.rowOne[1]}</h4>
+          <h4>{(props.data.p2).map((d, i) => <span key={`${i}footers`}>{d}<br /></span>)}</h4>
           <hr />
         </Col>
       </Row>
 
       <br />
-      <div>{props.data.rowTwo.map((d, i) => <h4 key={`${i}rowTwo`}><i>{d}</i></h4>)}</div>
+      <EditButton
+        user={props.user}
+        updateState={props.updateState}
+        dataObj={{p1: props.data.p1}}
+        title="Edit"
+        route="footer"
+      />
+      <div>{(props.data.p1.split('. ')).map((p, i) => <h4 key={`${i}footer`}><i>{
+        (p.charAt(p.length - 1) !== '.' && p.charAt(p.length - 1) !== '!' && p.charAt(p.length - 1) !== '?') ?
+          `${p}.` : p
+        }</i></h4>)}</div>
       <h3 className='text-center'><i className="fa fa-paw footer-icon" aria-hidden="true"></i></h3>
 
     </footer>

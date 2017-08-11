@@ -17,15 +17,16 @@ const Section = (props) => {
       updateState={props.updateState}
       dataObj={{}}
       title="Add"
+      route="rates"
     />:
     <div></div>;
 
 
   const section = ((props.section === "home") ?
-    <Home data={props.data}/> :
+    <Home data={props.data} user={props.user} updateState={props.updateState}/> :
     ((props.section === "services") ?
       <Services data={props.data}/> :
-      ((props.section === "rates" && props.data.rate.length > 0) ?
+      ((props.section === "rates") ?
         <Rates data={props.data}  user={props.user} updateState={props.updateState}/> :
         ((props.section === "contact") ?
           <Contact data={props.data} user={props.user} updateState={props.updateState}/> :
@@ -34,7 +35,11 @@ const Section = (props) => {
   return (
     <div className="main-content">
       <PageHeader><span className="header-text">{`${props.section.charAt(0).toUpperCase()}${props.section.slice(1)}`}</span></PageHeader>
-      <div>{section}</div>
+      {
+        (Object.keys(props.data).length > 0)?
+          <div>{section}</div>:
+          <div></div>
+      }
       <div className="text-center">{editButton}</div>
     </div>
   );
@@ -44,7 +49,7 @@ export default Section;
 
 Section.propsTypes = {
   section: PropTypes.string.isRequired,
-  data: PropTypes.array.isRequired,
+  data: PropTypes.object.isRequired,
   rate: PropTypes.array.isRequired,
   user: PropTypes.object.isRequired,
   message: PropTypes.string.isRequired,

@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 
 const messageData = require('../../data/data').messageData;
 const editData = require('../../data/data').editData;
+const rateData = require('../../data/data').rateData;
 const loginData = require('../../data/data').loginData;
 const notRequired = require('../../data/data').notRequired;
 const messages = require('../../data/data').messages;
@@ -12,12 +13,15 @@ const messages = require('../../data/data').messages;
 
 const checkForm = (obj, form) => {
   return (Object.keys(form)).reduce((a, b) => {
-    const required = notRequired.reduce((c, d) => { return c || b === d }, false);
-
-    const result = a && ((obj[b] !== '' && obj[b] !== undefined && obj[b].length !== 0) || required);
-    return result;
+    return a && ((obj[b] !== '' && obj[b] !== undefined && obj[b].length !== 0) || notRequired.includes(b));
   }, true);
 };
+
+const checkSize = (obj, form) => {
+  return (Object.keys(obj)).reduce((a, b) => {
+    return a && (form[b] !== undefined || b === "token");
+  }, true);
+}
 
 
 const checkPhone = (num) => {
@@ -42,41 +46,65 @@ const checkMessageInput = (req, res, next) => {
   const cForm = checkForm(req.body, messageData);
 
   if(!cForm){
-    let err = new Error(messages.inputError);
-    err.status = 400;
-    return next(err);
+    res.json({message: messages.inputError})
   }
   else {
     const cPhone = checkPhone(req.body.phone);
     const cEmail = checkEmail(req.body.email);
+    const cSize = checkSize(req.body, messageData);
 
     if(!cPhone){
-      let err = new Error(messages.phoneError);
+      res.json({message: messages.phoneError})
+    }
+    else if(!cEmail){
+      res.json({message: messages.emailError});
+    }
+    else if(!cSize){
+      let err = new Error("Invalid entry");
       err.status = 400;
       return next(err);
     }
-    else if(!cEmail){
-      let err = new Error(messages.emailError);
-      err.status = 400;
-      return next(err);
+    else {
+      return next();
     }
   }
 
-  return next();
 };
 
+const checkRateInput = (req, res, next) => {
+
+  const cForm = checkForm(req.body, rateData);
+  const cSize = checkSize(req.body, rateData);
+
+  if(!cForm){
+    res.json({message: messages.inputError})
+  }
+  else if(!cSize){
+    let err = new Error("Invalid entry");
+    err.status = 400;
+    return next(err);
+  }
+  else {
+    return next();
+  }
+};
 
 const checkEditInput = (req, res, next) => {
 
   const cForm = checkForm(req.body, editData);
+  const cSize = checkSize(req.body, editData);
 
   if(!cForm){
-    let err = new Error(messages.inputError);
+    res.json({message: messages.inputError})
+  }
+  else if(!cSize){
+    let err = new Error("Invalid entry");
     err.status = 400;
     return next(err);
   }
-
-  return next();
+  else {
+    return next();
+  }
 };
 
 
@@ -85,12 +113,11 @@ const checkLoginInput = (req, res, next) => {
   const cForm = checkForm(req.body, loginData);
 
   if(!cForm){
-    let err = new Error(messages.inputError);
-    err.status = 400;
-    return next(err);
+    res.json({message: messages.inputError})
   }
-
-  return next();
+  else {
+    return next();
+  }
 };
 
 // verifies token after login
@@ -98,11 +125,9 @@ const authorizeUser = (req, res, next) => {
   // check header or url parameters or post parameters for token
   const token = req.body.token || req.query.token || req.headers['x-access-token'];
   if (token) { // decode token
-    jwt.verify(token, superSecret, function(err, decoded) { // verifies secret and checks exp
+    jwt.verify(token, superSecret, (err, decoded) => { // verifies secret and checks exp
       if (err) {
-        let err = new Error(messages.expError);
-        err.status = 401;
-        next(err);
+        res.json({message: messages.expError})
       }
       else { // if everything is good, save to request for use in other routes
         if(decoded.userID !== req.page.userID){
@@ -126,6 +151,7 @@ const authorizeUser = (req, res, next) => {
 module.exports = {
   checkLoginInput,
   checkMessageInput,
+  checkRateInput,
   checkEditInput,
   authorizeUser
 };

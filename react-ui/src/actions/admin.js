@@ -1,7 +1,7 @@
 import * as AdminActionTypes from '../actiontypes/admin';
 import axios from 'axios';
 
-import { initialMessage, initialEdit } from '../../../data/data';
+import {  } from '../../../data/data';
 
 export const updateState = (newState) => {
   return {
@@ -33,7 +33,7 @@ export const putData = (url, newData) => {
     return axios.put(url, newData)
     .then(response => {
       console.log("response", response.data);
-      dispatch(updateState({...response.data, edit: initialEdit, message: initialMessage}));
+      dispatch(updateState(response.data));
 
     })
     .catch(error => {
@@ -50,7 +50,7 @@ export const postData = (url, newData) => {
     return axios.post(url, newData)
       .then(response => {
         console.log("response", response.data);
-        dispatch(updateState({...response.data, edit: initialEdit, message: initialMessage}));
+        dispatch(updateState(response.data));
 
       })
       .catch(error => {
@@ -67,7 +67,7 @@ export const deleteData = (url) => {
     return axios.delete(url)
     .then(response => {
       console.log("response", response.data);
-      dispatch(updateState({...response.data, edit: initialEdit, message: initialMessage}));
+      dispatch(updateState(response.data));
 
     })
     .catch(error => {

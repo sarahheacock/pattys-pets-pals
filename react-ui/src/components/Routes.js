@@ -6,7 +6,7 @@ import Section from './Section';
 
 const Routes = (props) => {
 
-  const routes = (Object.keys(props.data)).map((k) => {
+  const routes = (props.links).map((k) => {
     if(k === "home"){
       return (
         <Route key={`route${k}`} exact path="/" render={ () => (
@@ -20,7 +20,7 @@ const Routes = (props) => {
           />) }
         />);
     }
-    else {
+    else{
       return (
         <Route key={`route${k}`} path={`/${k}`} render={ () => (
           <Section
@@ -51,6 +51,7 @@ Routes.propsTypes = {
   data: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   message: PropTypes.string.isRequired,
+  links: PropTypes.array.isRequired,
 
   updateState: PropTypes.func.isRequired
 };

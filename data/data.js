@@ -1,88 +1,31 @@
 
-var blogID = '5989df866b0371404aa56ba6';
+var blogID = '598ce0f116ae3456118d1ca1';
 
 var data = {
-  home: {
-    "Hello my name is Patty...": {
-      image: "Pat_ltplrl.png",
-      p: "I both sincerely adore and enjoy caring for animals. I provide peace of mind to you as pet owners that your pet(s) will be well cared for while you are away."
-    },
-    "Pawfessional": {
-      p: "I understand that discerning pet and property owners aren’t comfortable letting just anyone in their home. With Patty's Pet Pals, you’ll return to your home and pets knowing they have been well cared for."
-    },
-    "Experienced": {
-      p: "Over the past two years I have provided high quality home and pet care. I am very honest, reliable, experienced and insured. I am also a member of National Association of Professional Pet Sitters. "
-    }
-  },
-  services: {
-    "Pet Services Provided": [
-      {
-        service: "Pet Sitting",
-        icon: "fa fa-paw"
-      },
-      {
-        service: "Dog Walking",
-        icon: "fi-guide-dog large-icon"
-      },
-      {
-        service: "Care & feeding",
-        icon: "fa fa-heart"
-      },
-      {
-        service: "Waste pick up & disposal",
-        icon: "fi-trash"
-      },
-      {
-        service: "Medication administration",
-        icon: "fa fa-medkit"
-      },
-      {
-        service: "Brushing & Bathing",
-        icon: "fa fa-bath"
-      },
-      {
-        service: "Transportation",
-        icon: "fa fa-car"
-      },
-      {
-        service: "House sitting",
-        icon: "fa fa-home"
-      }
-    ],
-    "Other Services if on Vacation": [
-      {
-        service: "Collect mail",
-        icon: "fa fa-envelope-o"
-      },
-      {
-        service: "Water plants",
-        icon: "fa fa-leaf"
-      },
-      {
-        service: "Alter lights & shades",
-        icon: "fa fa-lightbulb-o"
-      }
-    ],
-    "Areas Serviced": ["Norwest Columbus including zip codes:", "43235, 43017, 43016, 43002, 43220, 43085, 43221, 43214"]
-  },
-  rates: {
-    rate: [],
-    paragraph: ["Initial visit will be a 20-30 minute consultation.", "During which time, I will get to know you and your pet, and determine services required.", "Forms will be filled out "]
-  },
-  contact: {
-    paragraph: ["Want to get in contact with me?", "Whether you have further questions about my services, would like to request proof of certification, or would like to see my resume, I would be happy to hear from you!", "Call me with the provided phone numbers or click on a", "fa fa-envelope", "icon to leave a message and I will get back to you as soon as possible.", "Note: No spam or soliciting, please  :-)"]
-  }
+  home: {},
+  services: {},
+  rates: {},
+  contact: {},
+  footer: {}
 };
 
-var footer = {
-  rowTwo: [
-    "Member of National Association of Professional Pet Sitters.",
-    "Reference letters available per request.",
-    "Proof of up to date vaccinations especially for pets who go outdoors must be provided.",
-    "Vet recommended."
-  ],
-  rowOne: ["614-625-7651", "614-754-8654"]
+var links = ["home", "services", "rates", "contact"];
+
+
+//========INITIAL DATA=========================
+
+var initialUser = {
+  token: ''
 };
+
+var initialEdit = {
+  url: '',
+  modalTitle: '',
+  dataObj: {}
+};
+
+var initialMessage = '';
+//==============================================
 
 var loginData = {
   username: {
@@ -94,7 +37,7 @@ var loginData = {
     type: 'password',
     placeholder: 'Password',
     componentClass: 'input'
-  },
+  }
 };
 
 
@@ -123,19 +66,7 @@ var messageData = {
 
 var notRequired = ['description'];
 
-var initialUser = {
-  token: ''
-};
-
-var initialEdit = {
-  url: '',
-  modalTitle: '',
-  dataObj: ''
-};
-
-var initialMessage = '';
-
-var editData = {
+var rateData = {
   title: {
     type: 'text',
     placeholder: 'Type of Service',
@@ -155,15 +86,17 @@ var editData = {
     type: 'text',
     placeholder: 'Description',
     componentClass: 'input'
-  },
-  services: {
-    type: 'other',
-    placeholder: '',
-    componentClass: ''
   }
-}
+};
 
-var initialRate = data.rates.rate;
+var editData = {
+  p1: {
+    type: 'text',
+    placeholder: 'Write your paragraph here...',
+    componentClass: 'textarea'
+  }
+};
+
 var cloudName = "dhd1eov8v";
 
 var messages = {
@@ -180,16 +113,16 @@ var messages = {
 
 module.exports = {
   data: data,
-  footer: footer,
   initialUser: initialUser,
   initialEdit: initialEdit,
   initialMessage: initialMessage,
-  initialRate: initialRate,
   messageData: messageData,
   loginData: loginData,
   blogID: blogID,
   editData: editData,
+  rateData: rateData,
   cloudName: cloudName,
   notRequired: notRequired,
-  messages: messages
+  messages: messages,
+  links: links
 }

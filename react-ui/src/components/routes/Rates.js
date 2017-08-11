@@ -2,23 +2,31 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import EditButton from '../buttons/EditButton';
-import { data } from '../../../../data/data';
 
 const Rates = (props) => {
-  const services = data.services;
-  const keys = Object.keys(services);
-  const arr = services[keys[0]].concat(services[keys[1]]);
 
-  const paragraphs = props.data.paragraph.map((p, i) =>
+  const paragraphs = (props.data.p1.split('. ')).map((p, i) =>
     <h4 key={`p${i}`}>
-      <i>{p}</i>
+      <i>{
+        (p.charAt(p.length - 1) !== '.' && p.charAt(p.length - 1) !== '!' && p.charAt(p.length - 1) !== '?') ?
+          `${p}.` : p
+        }</i>
     </h4>
   );
 
 
   return (
     <div>
-      <div className="text-center">{paragraphs}</div>
+      <div className="text-center">
+        <EditButton
+          user={props.user}
+          updateState={props.updateState}
+          dataObj={{p1: props.data.p1}}
+          title="Edit"
+          route="rates"
+        />
+        {paragraphs}
+      </div>
       <br />
       <div className="flex-container">
         {props.data.rate.map((r) =>
@@ -35,12 +43,14 @@ const Rates = (props) => {
                 updateState={props.updateState}
                 dataObj={r}
                 title="Edit"
+                route="rates"
               />
               <EditButton
                 user={props.user}
                 updateState={props.updateState}
                 dataObj={r}
                 title="Delete"
+                route="rates"
               />
 
             </div>
@@ -55,14 +65,7 @@ const Rates = (props) => {
 export default Rates;
 
 Rates.propTypes = {
-  data: PropTypes.object.isRequired
+  data: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  updateState: PropTypes.func.isRequired
 }
-
-
-
-// <br />
-// <div>{(arr).map((s, i) => {
-//   return (r.services[s.service]) ?
-//     <p className="yes" key={s.service}><i className="fa fa-check" aria-hidden="true"></i>{` ${s.service}`}</p> :
-//     <p className="no" key={s.service}><i className="fa fa-times" aria-hidden="true"></i>{` ${s.service}`}</p>
-// })}</div>

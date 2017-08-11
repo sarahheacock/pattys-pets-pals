@@ -1,27 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { NavItem } from 'react-bootstrap';
-import moment from 'moment';
 
-import { blogID, initialEdit, messageData, loginData, editData, data } from '../../../../data/data';
+import { blogID, messageData, loginData, editData, rateData } from '../../../../data/data';
 
 
 const EditButton = (props) => {
-  const services = data.services;
-  const keys = Object.keys(services);
-
-  const addServices = () => {
-    const arr = services[keys[0]].concat(services[keys[1]]);
-    let service = {};
-    arr.forEach((s) => {
-      service[s.service] = ((props.title.includes("Add")) ? true : props.dataObj["services"][s.service]);
-    });
-    return service;
-  }
-
-
-  const pathArr = window.location.pathname.split('/');
-  const page = (pathArr[1] === "") ? "home" : pathArr[1];
 
   //=====STYLE OF BUTTON DEPENDING ON BUTTON TITLE====================================================
   const style = (props.title.includes("Edit")) ?
@@ -49,18 +32,10 @@ const EditButton = (props) => {
 
     let result = {};
     if(props.title === "Edit" || props.title === "Add"){
-      Object.keys(editData).forEach((key) => {
-        if(editData[key]["type"] !== 'other'){
-          if(props.title === "Edit"){ //copy everything
-            result[key] = props.dataObj[key];
-          }
-          else if(props.title === "Add"){ //initialize everything to editData
-            result[key] = '';
-          }
-        }
-        else { //initialize services checkboxes
-          result[key] = addServices();
-        }
+      const formData = (props.dataObj.p1 !== undefined) ? editData : rateData;
+      Object.keys(formData).forEach((key) => {
+        if(props.title === "Edit") result[key] = props.dataObj[key]; //copy object
+        else if(props.title === "Add") result[key] = ''; //initialize to undefined
       });
     }
     else if(props.title === "Delete"){ //only possible in publications and news
@@ -69,16 +44,16 @@ const EditButton = (props) => {
 
     dataObj = Object.assign({}, result);
 
-    if(props.title === "Delete") url = `/page/${blogID}/${props.dataObj._id}?token=${props.user.token}`;
-    else if(props.title === "Add") url = `/page/${blogID}?token=${props.user.token}`;
-    else if(props.title === "Edit") url = `/page/${blogID}/${props.dataObj._id}?token=${props.user.token}`;
-
+    if(props.title === "Delete") url = `/page/${blogID}/${props.route}/${props.dataObj._id}?token=${props.user.token}`;
+    else if(props.title === "Add") url = `/page/${blogID}/${props.route}?token=${props.user.token}`;
+    else if(props.title === "Edit" && props.dataObj.p1 !== undefined) url = `/page/${blogID}/${props.route}?token=${props.user.token}`;
+    else if(props.title === "Edit" && props.dataObj.p1 === undefined) url = `/page/${blogID}/${props.route}/${props.dataObj._id}?token=${props.user.token}`;
   }
   else if(props.title.includes("Login")) {
     Object.keys(loginData).forEach((k) => dataObj[k] = '');
     url = "/login";
   }
-  else if(props.title === "Send Message"){
+  else if(props.title.includes("Send Message")){
     Object.keys(messageData).forEach((k) => dataObj[k] = '');
     url = "/sayHello";
   }
@@ -90,7 +65,6 @@ const EditButton = (props) => {
   const content = {
     message: message,
     edit: {
-      ...initialEdit,
       modalTitle,
       url,
       dataObj
@@ -131,5 +105,6 @@ EditButton.propTypes = {
   user: PropTypes.object.isRequired,
   dataObj: PropTypes.object.isRequired,
   updateState: PropTypes.func.isRequired,
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
+  route: PropTypes.string.isRequired
 };

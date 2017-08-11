@@ -48,9 +48,8 @@ describe('Messages', () => {
       .post('/sayHello')
       .send(invalidForm)
       .end((err, res) => {
-        res.should.have.status(400);
         res.body.should.be.a('object');
-        res.body.should.have.property('error').eql({message: messages.inputError});
+        res.body.should.have.property('message').eql(messages.inputError);
         done();
       });
     });
@@ -60,9 +59,8 @@ describe('Messages', () => {
       .post('/sayHello')
       .send(invalidPhone)
       .end((err, res) => {
-        res.should.have.status(400);
         res.body.should.be.a('object');
-        res.body.should.have.property('error').eql({message: messages.phoneError});
+        res.body.should.have.property('message').eql(messages.phoneError);
         done();
       });
     });
@@ -72,9 +70,8 @@ describe('Messages', () => {
       .post('/sayHello')
       .send(invalidEmail)
       .end((err, res) => {
-        res.should.have.status(400);
         res.body.should.be.a('object');
-        res.body.should.have.property('error').eql({message: messages.emailError});
+        res.body.should.have.property('message').eql(messages.emailError);
         done();
       });
     });

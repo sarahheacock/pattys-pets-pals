@@ -66,9 +66,8 @@ describe('Admin Login', () => {
         .post('/login')
         .send(invalidForm)
         .end((err, res) => {
-          res.should.have.status(400);
           res.body.should.be.a('object');
-          res.body.should.have.property('error').eql({message: messages.inputError});
+          res.body.should.have.property('message').eql(messages.inputError);
           done();
         });
       });
@@ -80,9 +79,8 @@ describe('Admin Login', () => {
         .post('/login')
         .send(invalidpage)
         .end((err, res) => {
-          res.should.have.status(404);
           res.body.should.be.a('object');
-          res.body.should.have.property('error').eql({message: messages.usernameError});
+          res.body.should.have.property('message').eql(messages.usernameError);
           done();
         });
       });
@@ -94,9 +92,8 @@ describe('Admin Login', () => {
         .post('/login')
         .send(invalidPassword)
         .end((err, res) => {
-          res.should.have.status(401);
           res.body.should.be.a('object');
-          res.body.should.have.property('error').eql({message: messages.passError});
+          res.body.should.have.property('message').eql(messages.passError);
           done();
         });
       });

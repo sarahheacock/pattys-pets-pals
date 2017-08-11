@@ -34,23 +34,31 @@ describe('Pages', () => {
       .end((err, res) => {
         res.should.have.status(201);
         res.body.should.be.a('object');
-        res.body.rates[0].services.should.eql(
-          {
-            "Pet Sitting": true,
-            "Dog Walking": true,
-            "Care and feeding": true,
-            "Waste pick up and disposal": true,
-            "Medication administration": true,
-            "Brushing/Combing": true,
-            "Transportation": true,
-            "House sitting": true,
-            "Collect mail": true,
-            "Water plants": true,
-            "Alter lights and shades": true
-          }
-        );
+
         res.body.should.have.property('username').eql(page.username);
         res.body.should.have.property('password');
+
+        res.body.should.have.property('services').eql({
+          "Areas Serviced": [
+            "Norwest Columbus including zip codes:",
+            "43235, 43017, 43016, 43002, 43220, 43085, 43221, 43214"
+          ],
+          "Other Services if on Vacation": {
+            "Alter lights & shades": "fa fa-lightbulb-o",
+            "Water plants": "fa fa-leaf",
+            "Collect mail": "fa fa-envelope-o"
+          },
+          "Pet Services Provided": {
+            "House sitting": "fa fa-home",
+            "Transportation": "fa fa-car",
+            "Brushing & Bathing": "fa fa-bath",
+            "Medication administration": "fa fa-medkit",
+            "Waste pick up & disposal": "fi-trash",
+            "Care & feeding": "fa fa-heart",
+            "Dog Walking": "fi-guide-dog large-icon",
+            "Pet Sitting": "fa fa-paw"
+          }
+        })
         done();
       });
     });
@@ -77,7 +85,11 @@ describe('Pages', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('object');
-          res.body.should.have.property('rate');
+          res.body.rate.should.have.property('home');
+          res.body.rate.should.have.property('rates');
+          res.body.rate.should.have.property('services');
+          res.body.rate.should.have.property('footer');
+          res.body.rate.should.have.property('contact');
           done();
         });
       });
@@ -86,10 +98,15 @@ describe('Pages', () => {
 
   describe('/POST rate to pageID', () => {
     let page;
+    let token;
     beforeEach((done) => { //Before each test we empty the database
       page = new Page({
         "username": "test",
         "password": "password"
+      });
+
+      token = jwt.sign({userID: page.userID}, configure.secret, {
+        expiresIn: '1d' //expires in one day
       });
 
       page.save((err, newPage) => { done(); });
@@ -97,15 +114,8 @@ describe('Pages', () => {
 
 
     it('add rate when all form items are filled', (done) => {
-      const token = jwt.sign({userID: page.userID}, configure.secret, {
-        expiresIn: '1d' //expires in one day
-      });
 
       const rate = {
-        "services": {
-          "Pet Sitting": true,
-          "Dog Walking": true
-        },
         "description": "Good for...",
         "title": "Pampered Paws",
         "time": "10 minutes",
@@ -114,21 +124,21 @@ describe('Pages', () => {
       };
 
       chai.request(server)
-      .post('/page/' + page.id)
+      .post('/page/' + page.id + "/rates")
       .send(rate)
       .end((err, res) => {
         res.should.have.status(201);
         res.body.should.be.a('object');
+        res.body.should.have.property('edit');
         res.body.should.have.property('rate');
-        res.body.rate[1].should.have.property('cost').eql("10");
+        res.body.should.have.property('message');
+
+        res.body.rate.rates.rate[1].should.have.property('cost').eql("10");
         done();
       });
     });
 
     it('should return an error if required not included', (done) => {
-      const token = jwt.sign({userID: page.userID}, configure.secret, {
-        expiresIn: '1d' //expires in one day
-      });
 
       const invalid = {
         "description": "Good for...",
@@ -137,28 +147,18 @@ describe('Pages', () => {
       };
 
       chai.request(server)
-      .post('/page/' + page.id)
+      .post('/page/' + page.id + "/rates")
       .send(invalid)
       .end((err, res) => {
-        res.should.have.status(400);
         res.body.should.be.a('object');
-        res.body.should.have.property('error').eql({message: messages.inputError});
+        res.body.should.have.property('message').eql(messages.inputError);
         done();
       });
     });
 
     it('should return an expired session if token is wrong', (done) => {
-      const token = jwt.sign({userID: page.userID}, configure.secret, {
-        expiresIn: '1d' //expires in one day
-      });
 
       const rate = {
-        "services": [
-          {
-            "offered": true,
-            "service": "Pet Sitting"
-          }
-        ],
         "description": "Good for...",
         "title": "Pampered Paws",
         "time": "10 minutes",
@@ -167,22 +167,17 @@ describe('Pages', () => {
       };
 
       chai.request(server)
-      .post('/page/' + page.id)
+      .post('/page/' + page.id + "/rates")
       .send(rate)
       .end((err, res) => {
-        res.should.have.status(401);
         res.body.should.be.a('object');
-        res.body.should.have.property('error').eql({message: messages.expError});
+        res.body.should.have.property('message').eql(messages.expError);
         done();
       });
     });
 
     it('should return unauthorized if no token provided', (done) => {
       const rate = {
-        "services": {
-          "Pet Sitting": true,
-          "Dog Walking": true
-        },
         "description": "Good for...",
         "title": "Pampered Paws",
         "time": "10 minutes",
@@ -190,7 +185,7 @@ describe('Pages', () => {
       };
 
       chai.request(server)
-      .post('/page/' + page.id)
+      .post('/page/' + page.id + "/rates")
       .send(rate)
       .end((err, res) => {
         res.should.have.status(401);
@@ -201,31 +196,81 @@ describe('Pages', () => {
     });
   });
 
-  describe('/PUT rate to rateID', () => {
+  describe('/PUT editing page element', () => {
     //AUTHENTICATION WAS NOT INCLUDED SINCE TESTED IN POST
-
     let page;
+    let token;
     beforeEach((done) => { //Before each test we empty the database
       page = new Page({
         "username": "test",
         "password": "password"
       });
 
-      page.save((err, newPage) => { done(); });
-    });
-
-
-    it('edit rate when all form items are filled', (done) => {
-      const token = jwt.sign({userID: page.userID}, configure.secret, {
+      token = jwt.sign({userID: page.userID}, configure.secret, {
         expiresIn: '1d' //expires in one day
       });
 
+      page.save((err, newPage) => { done(); });
+    });
+
+    it('edit rates.p1 when all form items are filled', (done) => {
+
+      const p1 = {
+        "p1": "Hello!",
+        "token": token
+      };
+
+      chai.request(server)
+      .put('/page/' + page.id + "/home/")
+      .send(p1)
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        res.body.rate.home.should.have.property('p1').eql(p1.p1);
+        done();
+      });
+    });
+
+    it('should return an error if editing content not on form', (done) => {
+
+      const invalid = {
+        "p1": "hello",
+        "image": "abc",
+        "token": token
+      };
+
+      chai.request(server)
+      .put('/page/' + page.id + "/home")
+      .send(invalid)
+      .end((err, res) => {
+        res.should.have.status(400);
+        res.body.should.be.a('object');
+        res.body.should.have.property('error').eql({message: "Invalid entry"});
+        done();
+      });
+    });
+  });
+
+  describe('/PUT editing rate', () => {
+    //AUTHENTICATION WAS NOT INCLUDED SINCE TESTED IN POST
+    let page;
+    let token;
+    beforeEach((done) => { //Before each test we empty the database
+      page = new Page({
+        "username": "test",
+        "password": "password"
+      });
+
+      token = jwt.sign({userID: page.userID}, configure.secret, {
+        expiresIn: '1d' //expires in one day
+      });
+
+      page.save((err, newPage) => { done(); });
+    });
+
+    it('edit rate when all form items are filled', (done) => {
+
       const rate = {
-        "services": {
-          "Pet Sitting": true,
-          "Dog Walking": true
-        },
-        "description": "Good for...",
         "title": "Pampered Paws",
         "time": "10 minutes",
         "cost": "10",
@@ -233,21 +278,20 @@ describe('Pages', () => {
       };
 
       chai.request(server)
-      .put('/page/' + page.id + "/" + page.rates[0].id)
+      .put('/page/' + page.id + "/rates/" + page.rates.rate[0].id)
       .send(rate)
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a('object');
         res.body.should.have.property('rate');
-        res.body.rate[0].should.have.property('cost').eql("10");
+        res.body.should.have.property('edit');
+        res.body.should.have.property('message');
+        res.body.rate.rates.rate[0].should.have.property('cost').eql("10");
         done();
       });
     });
 
     it('should return an error if required not included', (done) => {
-      const token = jwt.sign({userID: page.userID}, configure.secret, {
-        expiresIn: '1d' //expires in one day
-      });
 
       const invalid = {
         "description": "Good for...",
@@ -256,12 +300,11 @@ describe('Pages', () => {
       };
 
       chai.request(server)
-      .put('/page/' + page.id + "/" + page.rates[0].id)
+      .put('/page/' + page.id + "/rates/" + page.rates.rate[0].id)
       .send(invalid)
       .end((err, res) => {
-        res.should.have.status(400);
         res.body.should.be.a('object');
-        res.body.should.have.property('error').eql({message: messages.inputError});
+        res.body.should.have.property('message').eql(messages.inputError);
         done();
       });
     });
@@ -269,30 +312,30 @@ describe('Pages', () => {
 
   describe('/DELETE rate to rateID', () => {
     //AUTHENTICATION WAS NOT INCLUDED SINCE TESTED IN POST
-
     let page;
+    let token;
     beforeEach((done) => { //Before each test we empty the database
       page = new Page({
         "username": "test",
         "password": "password"
       });
 
+      token = jwt.sign({userID: page.userID}, configure.secret, {
+        expiresIn: '1d' //expires in one day
+      });
       page.save((err, newPage) => { done(); });
     });
 
 
     it('should delete rates', (done) => {
-      const token = jwt.sign({userID: page.userID}, configure.secret, {
-        expiresIn: '1d' //expires in one day
-      });
 
       chai.request(server)
-      .delete('/page/' + page.id + "/" + page.rates[0].id + "?token=" + token)
+      .delete('/page/' + page.id + "/rates/" + page.rates.rate[0].id + "?token=" + token)
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a('object');
         res.body.should.have.property('rate')
-        res.body.rate.should.be.a('array').length(0);
+        res.body.rate.rates.rate.should.be.a('array').length(0);
         done();
       });
     });

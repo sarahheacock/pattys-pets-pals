@@ -21,16 +21,10 @@ class EditModal extends React.Component {
   onFormChange = (e) => {
 
     let dataObj = {...this.props.edit.dataObj};
-    const nameArr = e.target.name.split('-');
+    const name = e.target.name;
     const value = e.target.value;
 
-    if(nameArr.length > 1){
-      dataObj[nameArr[0]][nameArr[1]] = !dataObj[nameArr[0]][nameArr[1]];
-    }
-    else {
-      dataObj[nameArr[0]] = value;
-    }
-
+    dataObj[name] = value;
 
     this.props.updateState({
       edit: {

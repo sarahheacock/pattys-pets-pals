@@ -72,7 +72,7 @@ class SubmitButtonSet extends React.Component {
                 }
               </button>
               <button className="button" onClick={this.pop}>
-                Cancel
+                {(this.props.message === messages.messageSent) ? "Close" : "Cancel"}
               </button>
             </div> :
             <div>
