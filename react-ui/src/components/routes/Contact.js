@@ -22,7 +22,7 @@ const Contact = (props) => {
 
   return (
     <div className="content text-center">
-      <h3 className="pretty">{'Want to reach me?'}</h3>
+      <h3 className="pretty">{'Would you like to reach me?'}</h3>
       <EditButton
         user={props.user}
         updateState={props.updateState}

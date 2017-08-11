@@ -8,8 +8,12 @@ import Rates from './routes/Rates';
 import Contact from './routes/Contact';
 import EditButton from './buttons/EditButton';
 
+const title = (s) => {
+  return `${s.charAt(0).toUpperCase()}${s.slice(1)}`;
+};
 
 const Section = (props) => {
+
   //EditButton will make button invisible without token
   const editButton = (props.section === "rates") ?
     <EditButton
@@ -34,7 +38,7 @@ const Section = (props) => {
 
   return (
     <div className="main-content">
-      <PageHeader><span className="header-text">{`${props.section.charAt(0).toUpperCase()}${props.section.slice(1)}`}</span></PageHeader>
+      <PageHeader><span className="header-text">{title(props.section)}</span></PageHeader>
       {
         (Object.keys(props.data).length > 0)?
           <div>{section}</div>:
