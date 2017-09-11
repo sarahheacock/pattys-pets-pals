@@ -29,7 +29,7 @@ const Section = (props) => {
   const section = ((props.section === "home") ?
     <Home data={props.data} user={props.user} updateState={props.updateState}/> :
     ((props.section === "services") ?
-      <Services data={props.data}/> :
+      <Services data={props.data} user={props.user} updateState={props.updateState}/> :
       ((props.section === "rates") ?
         <Rates data={props.data}  user={props.user} updateState={props.updateState}/> :
         ((props.section === "contact") ?
@@ -51,7 +51,7 @@ const Section = (props) => {
 
 export default Section;
 
-Section.propsTypes = {
+Section.propTypes = {
   section: PropTypes.string.isRequired,
   data: PropTypes.object.isRequired,
   rate: PropTypes.array.isRequired,

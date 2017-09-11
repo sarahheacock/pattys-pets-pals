@@ -122,6 +122,14 @@ footer .fa{
   padding: 2%;
 }
 
+.fa-heart:hover{
+  color: #623747;
+}
+
+.fa-coffee:hover{
+  color: #623747;
+}
+
 .footer-icon {
   color: #874C62;
 }
@@ -132,5 +140,5 @@ footer .fa{
 }
 
 .env:hover{
-  color: #874C62;
+  color: #623747;
 }
