@@ -69,7 +69,7 @@ const PageSchema = new Schema({
         "Water plants": "fa fa-leaf",
         "Alter lights & shades": "fa fa-lightbulb-o"
       },
-      "Areas Serviced": ["Norwest Columbus including zip codes:", "43235, 43017, 43016, 43002, 43220, 43085, 43221, 43214"]
+      "p1": "Norwest Columbus including zip codes: 43235, 43017, 43016, 43002, 43220, 43085, 43221, 43214"
     }
   },
   rates: {

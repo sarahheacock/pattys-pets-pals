@@ -26,7 +26,7 @@ const Footer = (props) => {
         <Col sm={6}>
          <hr />
           <h3 className="pretty">This page was built with</h3>
-          <h3><i className="fa fa-heart footer-icon" aria-hidden="true"></i> and <i className="fa fa-coffee footer-icon" aria-hidden="true"></i></h3>
+          <h3><a href="https://www.sarahwebdeveloper.com"><i className="fa fa-heart footer-icon" aria-hidden="true"></i></a> and <a href="https://www.sarahwebdeveloper.com"><i className="fa fa-coffee footer-icon" aria-hidden="true"></i></a></h3>
           <h4>by Sarah Heacock</h4>
           <br />
           <hr />
@@ -59,6 +59,7 @@ const Footer = (props) => {
       />
       {props.data.p1.split('\n').map((p, i) => <h4 key={`${i}footer`}><i>{p}</i></h4>)}
       <h3 className='text-center'><i className="fa fa-paw footer-icon" aria-hidden="true"></i></h3>
+      <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 
     </footer>
 
