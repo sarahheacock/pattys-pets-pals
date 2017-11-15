@@ -34,9 +34,9 @@ db.once("open", function(){
 });
 
 
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({extended: true}));
-// app.use(bodyParser.text());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.text());
 // app.use(bodyParser.json({ type: 'application/json'}));
 // const forceSSL = function() {
 //   return function (req, res, next) {
